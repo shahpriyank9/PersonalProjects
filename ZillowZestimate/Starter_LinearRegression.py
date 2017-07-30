@@ -24,6 +24,9 @@ for c, dtype in zip(prop.columns, prop.dtypes):
 print('Creating training set ...')
 
 df_train = train.merge(prop, how='left', on='parcelid')
+# drop out ouliers
+df_train=df_train[ df_train.logerror > -0.35 ]
+df_train=df_train[ df_train.logerror < 0.39 ]
 x_train = df_train.drop(['parcelid', 'logerror', 'transactiondate', 'propertyzoningdesc', 'propertycountylandusecode'], axis=1)
 y_train = df_train['logerror'].values
 print(x_train.shape, y_train.shape)
